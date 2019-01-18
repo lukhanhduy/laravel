@@ -32,8 +32,18 @@
         }
     },
     "autoload": {
+        "files": [
+            "app/Helpers/Helper.php",
+            "app/Helpers/HandleFile.php",
+            "app/Helpers/HandleHttp.php",
+            "app/Helpers/HandleSql.php",
+            "app/Helpers/Translate.php"
+        ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "App\\Http\\Controllers\\": "app/Controllers/",
+            "App\\Http\\Middleware\\": "app/Middleware/",
+            "Repositories\\" : "Repositories"
         },
         "classmap": [
             "database/seeds",
@@ -42,7 +52,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "App\\": "app/"
         }
     },
     "minimum-stability": "dev",

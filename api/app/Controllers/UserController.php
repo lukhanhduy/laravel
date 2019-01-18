@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Helper;
+use HandleHttp;
+use App\Repositories\UserRepository;
+
+class UserController extends Controller
+{
+    //
+    public function __construct(UserRepository $repository)
+    {
+        $this->repository = $repository;
+        parent::__construct();
+    }
+    public function ping(){
+        return HandleHttp::responseSuccess(["code"=>200,"message"=>'ok',"data"=> []]);
+    }
+}
