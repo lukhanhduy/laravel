@@ -4,6 +4,7 @@ class HandleFile{
         return true;
     }
     public function uploadFile($file){
+        //get file name 
         return true;
     }
     public static function test(){

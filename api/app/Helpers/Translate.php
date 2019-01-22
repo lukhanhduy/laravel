@@ -15,6 +15,8 @@ class Translate {
     public function wrongFormatField(){
         return true;
     }
+
+    // DB
     public function existInDB(){
         return true;
     }
