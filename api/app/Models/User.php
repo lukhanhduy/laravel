@@ -14,6 +14,9 @@ class User extends Authenticatable
     protected $table = "users";
 
     protected $primaryKey = 'userId';
+    
+    const CREATED_AT = 'createdAt';
+    const UPDATED_AT = 'updatedAt';
     /**
      * The attributes that are mass assignable.
      *

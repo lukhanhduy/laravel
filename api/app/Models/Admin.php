@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Admin extends Model
 {
     protected $table = "admins";
+    
+    const CREATED_AT = 'createdAt';
+    const UPDATED_AT = 'updatedAt';
 
-    protected $primaryKey = 'adminId';
+    protected $primaryKey = 'userId';
 
     protected $fillable = [
-        'adminId','firstName', 'lastName', 'email', 'password', 'roleId'
+        'userId','firstName', 'lastName', 'email', 'password', 'roleId'
     ];
 
     protected $hidden = [

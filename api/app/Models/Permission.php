@@ -7,10 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Permission extends Model
 {
     //
+    protected $table = "permissions";
+
     protected $primaryKey = 'permissionId';
+    
+    const CREATED_AT = 'createdAt';
+    const UPDATED_AT = 'updatedAt';
 
     protected $fillable = [
-        'permissionId','roleId','rules'
+        'permissionId','roleId','rules','status'
     ];
     public function role()
     {
