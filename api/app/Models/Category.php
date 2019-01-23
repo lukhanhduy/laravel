@@ -4,18 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Module extends Model
+class Category extends Model
 {
     //
-    protected $primaryKey = 'moduleId';
+    protected $primaryKey = 'categoryId';
     
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
 
-    protected $table = "modules";
+    protected $table = "categories";
 
     protected $fillable = [
-        'moduleId','moduleName','slug','fileId'
+        'categoryId','categoryName','parentId','slug','fileId'
     ];
-    
 }
