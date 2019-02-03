@@ -15,7 +15,7 @@ class Module extends Model
     protected $table = "modules";
 
     protected $fillable = [
-        'moduleId','moduleName','slug','fileId'
+        'moduleId','moduleName','slug','fileId','index','parentId'
     ];
     
 }

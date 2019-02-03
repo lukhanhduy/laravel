@@ -13,6 +13,17 @@ class CreateMains extends Migration
      */
     public function up()
     {
+        Schema::create('files', function (Blueprint $table) {
+            $table->increments('fileId');
+            $table->string('filePath');
+            $table->string('fileName');
+            $table->string('mimeType');
+            $table->string('fileSize');
+            $table->boolean('isLocale');
+            $table->timestamp('createdAt')->nullable();
+            $table->timestamp('updatedAt')->nullable();
+        });
+
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('roleId');
             $table->string('roleName');
@@ -22,8 +33,8 @@ class CreateMains extends Migration
         });
         Schema::create('permissions', function (Blueprint $table) {
             $table->increments('permissionId');
-            $table->integer('roleId');
-            $table->foreign('roleId')->references('roleId')->on('role')->onDelete('set null');
+            $table->unsignedInteger('roleId');
+            $table->foreign('roleId')->references('roleId')->on('roles')->onDelete('cascade');
             $table->json('rules');
             $table->tinyInteger('status');
             $table->timestamp('createdAt')->nullable();
@@ -57,8 +68,8 @@ class CreateMains extends Migration
             $table->string('lastName');
             $table->string('email')->unique();
             $table->tinyInteger('status');
-            $table->integer('roleId');
-            $table->foreign('roleId')->references('roleId')->on('role')->onDelete('set null');
+            $table->unsignedInteger('roleId');
+            $table->foreign('roleId')->references('roleId')->on('roles')->onDelete('cascade');
             $table->timestamp('createdAt')->nullable();
             $table->timestamp('updatedAt')->nullable();
         });
@@ -69,7 +80,9 @@ class CreateMains extends Migration
             $table->string('prefix');
             $table->tinyInteger('status');
             $table->string('slug');
-            $table->tinyInteintegerger('fileId');
+            $table->unsignedInteger('fileId')->nullable();;
+            $table->foreign('fileId')->references('fileId')->on('files')->onDelete('set null');
+            $table->unsignedInteger('parentId');
             $table->timestamp('createdAt')->nullable();
             $table->timestamp('updatedAt')->nullable();
         });
@@ -78,13 +91,15 @@ class CreateMains extends Migration
             $table->increments('categoryId');
             $table->string('categoryName');
             $table->string('slug');
-            $table->integer('fileId');
+            $table->unsignedInteger('fileId')->nullable();;
+            $table->foreign('fileId')->references('fileId')->on('files')->onDelete('set null');
             $table->tinyInteger('status');
-            $table->integer('parentId');
+            $table->unsignedInteger('parentId');
             $table->timestamp('createdAt')->nullable();
             $table->timestamp('updatedAt')->nullable();
         });
 
+        
         
     }
 
