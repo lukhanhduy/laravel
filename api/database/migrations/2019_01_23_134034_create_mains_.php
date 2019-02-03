@@ -24,7 +24,7 @@ class CreateMains extends Migration
             $table->increments('permissionId');
             $table->integer('roleId');
             $table->foreign('roleId')->references('roleId')->on('role')->onDelete('set null');
-            $table->string('rules');
+            $table->json('rules');
             $table->tinyInteger('status');
             $table->timestamp('createdAt')->nullable();
             $table->timestamp('updatedAt')->nullable();
