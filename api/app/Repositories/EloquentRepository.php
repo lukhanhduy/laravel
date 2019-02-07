@@ -152,12 +152,13 @@ abstract class EloquentRepository implements RepositoryInterface
         return $this->parserResult($results);
     }
 
-    public function paginate($limit = null, $columns = array('*'))
+    public function paginate($pagination = [ 'limit' => null , 'skip' => null ] , $columns = array('*'))
     {
-        $this->applyCriteria();
-        $this->applyScope();
-        $limit = is_null($limit) ? config('repository.pagination.limit', 15) : $limit;
-        $results = $this->model->paginate($limit, $columns);
+        // $this->applyCriteria();
+        // $this->applyScope();
+        $limit = is_null($pagination['limit']) ? config('global.pagination.limit', 10) : $pagination['limit'];
+        $skip = is_null($pagination['skip']) ? config('global.pagination.skip', 0) : $pagination['skip'];
+        $results = $this->model->skip($skip)->paginate($limit);
         $this->resetModel();
         return $this->parserResult($results);
     }
@@ -175,9 +176,9 @@ abstract class EloquentRepository implements RepositoryInterface
     {
         $this->applyCriteria();
         $this->applyScope();
-        $model = $this->model->where($field,'=',$value)->get($columns);
+        $model = $this->model->where($field,'=',$value)->paginate($pagination,$columns);
         $this->resetModel();
-        return $this->parserResult($model);
+        return $this->parserResult($model,true);
     }
 
     public function findProjectFields($filter = array(),$columns = array()){
@@ -191,9 +192,11 @@ abstract class EloquentRepository implements RepositoryInterface
            }
         }
         if($filter){
-            $model = $model->where($filter);
+            $this->model->where($filter);
         }
-        return  $model->get($fillable);
+        $model = $this->model->paginate($pagination,$fillable);
+        $this->resetModel();
+        return $this->parserResult($model,true);
     }
 
     public function findWhere( array $where , $columns = array('*'))
@@ -210,26 +213,25 @@ abstract class EloquentRepository implements RepositoryInterface
             }
         }
 
-        $model = $this->model->get($columns);
+        $model = $this->model->paginate($pagination,$columns);
         $this->resetModel();
-
-        return $this->parserResult($model);
+        return $this->parserResult($model,true);
     }
 
-    public function findWhereIn( $field, array $values, $columns = array('*'))
+    public function findWhereIn( $field, array $values, $pagination = [], $columns = array('*'))
     {
         $this->applyCriteria();
-        $model = $this->model->whereIn($field, $values)->get($columns);
+        $model = $this->model->whereIn($field, $values)->paginate($pagination,$columns);
         $this->resetModel();
-        return $this->parserResult($model);
+        return $this->parserResult($model,true);
     }
 
-    public function findWhereNotIn( $field, array $values, $columns = array('*'))
+    public function findWhereNotIn( $field, array $values, $pagination = [], $columns = array('*'))
     {
-        $this->applyCriteria();
-        $model = $this->model->whereNotIn($field, $values)->get($columns);
+        // $this->applyCriteria();
+        $model = $this->model->whereNotIn($field, $values)->paginate($pagination,$columns);
         $this->resetModel();
-        return $this->parserResult($model);
+        return $this->parserResult($model,true);
     }
 
     public function create(array $attributes)
@@ -310,5 +312,22 @@ abstract class EloquentRepository implements RepositoryInterface
     {
         $this->model->setVisible($fields);
         return $this;
+    }
+
+    public function parserResult($model,$pagination = false){
+        $result = [];
+        if($pagination === true){
+            $result['data'] = $model["data"] ? $model["data"] : [];
+            $result['next'] =$model['next'] ? $model['next'] : null;
+            $result['prev'] =$model['prev_page_url'] ? $model['prev_page_url'] : null;
+            $result['last'] = $model['last_page'] ? $model['last_page'] : 1;
+            $result['total'] = $model['total'] ? $model['total'] : 0;
+            $result['page'] = $model['current_page'] ? $model['current_page'] : 1;
+            return $result;
+        }
+        else{
+            $result['data'] = $model;
+        }
+        return $result;
     }
 }

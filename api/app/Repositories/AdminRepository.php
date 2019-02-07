@@ -16,4 +16,8 @@ class AdminRepository extends EloquentRepository
     public function findPermission(){
         return $this->model()->permission();
     }
+    public function findAll(){
+        $model = $this->model();
+        return $this->findWhereNotIn("status",[config('global.status.inactive'),config('global.status.delete')]);
+    }
 }
