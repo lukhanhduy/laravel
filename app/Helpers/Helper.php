@@ -2,10 +2,13 @@
 
 class Helper
 {
-    private $status = ['active','deactive','delete'];
-
-    public static function parseStatus($status){
-        return $this->status[$status-1];
+    
+    // global
+    public static function get($data, $key , $value){
+        if($data && $data[$key]){
+            return $data[$key];
+        }
+        return $value;
     }
     //  ------------------------------- string
     public static function shortString($string="",$length=10){

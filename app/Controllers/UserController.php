@@ -18,4 +18,14 @@ class UserController extends Controller
     public function ping(){
         return HandleHttp::responseSuccess(["code"=>200,"message"=>'ok',"data"=> []]);
     }
+    
+    // this function for front end 
+
+    public function fnLogin($array = []){
+        // return view
+        return [];
+    }
+    public function doLogin($array = []){
+        return [];
+    }
 }

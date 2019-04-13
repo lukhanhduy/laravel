@@ -49,6 +49,8 @@ class CreateMains extends Migration
             $table->timestamp('verifiedAt')->nullable();
             $table->integer('userType');
             $table->tinyInteger('status');
+            $table->unsignedInteger('avatar')->nullable();;
+            $table->foreign('avatar')->references('fileId')->on('files')->onDelete('set null');
             $table->string('password');
             $table->rememberToken();
             $table->timestamp('createdAt')->nullable();
@@ -69,6 +71,8 @@ class CreateMains extends Migration
             $table->string('email')->unique();
             $table->tinyInteger('status');
             $table->unsignedInteger('roleId');
+            $table->unsignedInteger('avatar')->nullable();;
+            $table->foreign('avatar')->references('fileId')->on('files')->onDelete('set null');
             $table->foreign('roleId')->references('roleId')->on('roles')->onDelete('cascade');
             $table->timestamp('createdAt')->nullable();
             $table->timestamp('updatedAt')->nullable();
@@ -80,8 +84,8 @@ class CreateMains extends Migration
             $table->string('prefix');
             $table->tinyInteger('status');
             $table->string('slug');
-            $table->unsignedInteger('fileId')->nullable();;
-            $table->foreign('fileId')->references('fileId')->on('files')->onDelete('set null');
+            $table->unsignedInteger('icon')->nullable();;
+            $table->foreign('icon')->references('fileId')->on('files')->onDelete('set null');
             $table->unsignedInteger('parentId');
             $table->timestamp('createdAt')->nullable();
             $table->timestamp('updatedAt')->nullable();
@@ -91,8 +95,8 @@ class CreateMains extends Migration
             $table->increments('categoryId');
             $table->string('categoryName');
             $table->string('slug');
-            $table->unsignedInteger('fileId')->nullable();;
-            $table->foreign('fileId')->references('fileId')->on('files')->onDelete('set null');
+            $table->unsignedInteger('icon')->nullable();;
+            $table->foreign('icon')->references('fileId')->on('files')->onDelete('set null');
             $table->tinyInteger('status');
             $table->unsignedInteger('parentId');
             $table->timestamp('createdAt')->nullable();
@@ -114,7 +118,7 @@ class CreateMains extends Migration
         Schema::dropIfExists('permissions');
         Schema::dropIfExists('users');
         Schema::dropIfExists('passwords');
-        Schema::dropIfExists('roladminses');
+        Schema::dropIfExists('admins');
         Schema::dropIfExists('modules');
         Schema::dropIfExists('categories');
     }

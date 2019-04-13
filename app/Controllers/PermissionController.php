@@ -8,4 +8,10 @@ use App\Http\Controllers\Controller;
 class PermissionController extends Controller
 {
     //
+    public function fnGetPermission(Request $request){
+        return [];
+    }
+    public function fnGetPermissionById(Request $request){
+        return [];
+    }
 }
