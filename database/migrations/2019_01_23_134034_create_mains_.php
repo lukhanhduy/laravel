@@ -49,6 +49,7 @@ class CreateMains extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('phone_number');
             $table->integer('user_type');
             $table->string('slug');
             $table->tinyInteger('status');
@@ -75,6 +76,7 @@ class CreateMains extends Migration
             $table->tinyInteger('status');
             $table->unsignedInteger('role_id');
             $table->string('slug');
+            $table->string('phone_number');
             $table->unsignedInteger('avatar')->nullable();;
             $table->foreign('avatar')->references('file_id')->on('files')->onDelete('set null');
             $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('cascade');
