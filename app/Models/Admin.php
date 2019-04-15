@@ -7,14 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Admin extends Model
 {
     protected $table = "admins";
-    
-    const CREATED_AT = 'createdAt';
-    const UPDATED_AT = 'updatedAt';
 
-    protected $primaryKey = 'userId';
+    protected $primaryKey = 'user_id';
 
     protected $fillable = [
-        'userId','firstName', 'lastName', 'email', 'password', 'roleId'
+        'user_id','first_name', 'last_name', 'email', 'password', 'role_id', 'phone_number'
     ];
 
     protected $hidden = [
@@ -23,10 +20,10 @@ class Admin extends Model
 
     public function role()
     {
-        return $this->hasOne('App\Modles\Role','roleId','roleId');
+        return $this->hasOne('App\Modles\Role','role_id','role_id');
     }
     public function permission()
     {
-        return $this->hasOne('App\Modles\Permission','roleId','roleId');
+        return $this->hasOne('App\Modles\Permission','role_id','role_id');
     }
 }

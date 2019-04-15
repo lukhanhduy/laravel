@@ -7,15 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Module extends Model
 {
     //
-    protected $primaryKey = 'moduleId';
-    
-    const CREATED_AT = 'createdAt';
-    const UPDATED_AT = 'updatedAt';
+    protected $primaryKey = 'module_id';
 
     protected $table = "modules";
 
     protected $fillable = [
-        'moduleId','moduleName','slug','fileId','index','parentId'
+        'module_id','module_name','slug','file_id','index','parent_id'
     ];
     
 }

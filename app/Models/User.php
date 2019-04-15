@@ -13,17 +13,15 @@ class User extends Authenticatable
 
     protected $table = "users";
 
-    protected $primaryKey = 'userId';
+    protected $primaryKey = 'user_id';
     
-    const CREATED_AT = 'createdAt';
-    const UPDATED_AT = 'updatedAt';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'userId','firstName', 'lastName', 'email', 'password', 'userType'
+        'user_id','first_name', 'last_name', 'email', 'password', 'user_type' , 'phone_number'
     ];
 
     /**

@@ -8,13 +8,13 @@ class Role extends Model
 {
     protected $table = "roles";
 
-    protected $primaryKey = 'roleId';
+    protected $primaryKey = 'role_id';
 
     protected $fillable = [
-        'roleId','roleName','status'
+        'role_id','role_name','status'
     ];
     public function permission()
     {
-        return $this->hasOne('App\Modles\Permission','roleId','roleId');
+        return $this->hasOne('App\Modles\Permission','role_id','role_id');
     }
 }

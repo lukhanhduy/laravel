@@ -9,16 +9,13 @@ class Permission extends Model
     //
     protected $table = "permissions";
 
-    protected $primaryKey = 'permissionId';
-    
-    const CREATED_AT = 'createdAt';
-    const UPDATED_AT = 'updatedAt';
+    protected $primaryKey = 'permission_id';
 
     protected $fillable = [
-        'permissionId','roleId','rules','status'
+        'permission_id','role_id','rules','status'
     ];
     public function role()
     {
-        return $this->hasMany('App\Modles\Role','roleId','roleId');
+        return $this->hasMany('App\Modles\Role','role_id','role_id');
     }
 }
