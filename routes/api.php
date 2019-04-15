@@ -20,5 +20,6 @@ Route::get('/ping', 'UserController@ping');
 Route::group(['prefix'=>'/admin'],function(){
     Route::get('/find-all','AdminController@findAll');
     Route::get('/login','AdminController@fnLogin');
+    Route::post('/create','AdminController@fnCreate');
 });
 
