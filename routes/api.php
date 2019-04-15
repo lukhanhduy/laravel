@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/ping', 'UserController@ping');
-Route::group(['prefix'=>'/admin'],function(){
+Route::group(['prefix'=>'/admin','middleware'=>'locale'],function(){
     Route::get('/find-all','AdminController@findAll');
     Route::get('/login','AdminController@fnLogin');
     Route::post('/create','AdminController@fnCreate');

@@ -5,12 +5,17 @@ class HandleHttp{
 		$code = empty($response['code'])?200:$response['code'];
 		$data = !isset($response['data'])?null:$response['data'];
 		$message = empty($response['message'])?null:$response['message'];
-        $params = [
+		$result = [
 			'data' => $data,
 			'code' => $code,
 			'message' => $message
 		];
-		return response($params, $code);
+		if(isset($response["options"])){
+			foreach ($options as $key => $value) {
+				$result[$key] = $value;
+			}
+		}
+		return response($result, $code);
     }
     public static function responseError($response)
 	{

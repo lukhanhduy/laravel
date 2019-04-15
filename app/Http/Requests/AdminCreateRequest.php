@@ -26,7 +26,9 @@ class AdminCreateRequest extends ApiRequest
     {
         return [
             'email' => 'required|email|unique:admins',
-            'last_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50|min:3',
+            'first_name' => 'string',
+            'phone_number'=> 'required|string|min:3',
             'password' => 'required'
         ];
     }

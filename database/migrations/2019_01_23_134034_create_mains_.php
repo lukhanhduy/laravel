@@ -18,10 +18,10 @@ class CreateMains extends Migration
             $table->increments('file_id');
             $table->string('file_path');
             $table->string('file_name');
-            $table->string('mime_type');
+            $table->string('mime_type')->nullable();
             $table->string('slug');
             $table->string('file_size');
-            $table->boolean('is_locale');
+            $table->boolean('is_locale')->default(false);
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });
@@ -29,7 +29,7 @@ class CreateMains extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('role_id');
             $table->string('role_name');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });
@@ -38,7 +38,7 @@ class CreateMains extends Migration
             $table->unsignedInteger('role_id');
             $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('cascade');
             $table->json('rules');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });
@@ -50,9 +50,9 @@ class CreateMains extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone_number');
-            $table->integer('user_type');
+            $table->integer('user_type')->default(1);
             $table->string('slug');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->unsignedInteger('avatar')->nullable();;
             $table->foreign('avatar')->references('file_id')->on('files')->onDelete('set null');
             $table->string('password');
@@ -70,13 +70,15 @@ class CreateMains extends Migration
 
         Schema::create('admins', function (Blueprint $table) {
             $table->increments('userId');
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('email')->unique();
-            $table->tinyInteger('status');
-            $table->unsignedInteger('role_id');
-            $table->string('slug');
-            $table->string('phone_number');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->tinyInteger('status')->default(1);
+            $table->string('password');
+            $table->unsignedInteger('role_id')->nullable();
+            $table->string('slug')->nullable();
+            $table->string('phone_number')->nullable();
             $table->unsignedInteger('avatar')->nullable();;
             $table->foreign('avatar')->references('file_id')->on('files')->onDelete('set null');
             $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('cascade');
@@ -88,7 +90,7 @@ class CreateMains extends Migration
             $table->increments('module_id');
             $table->string('module_name');
             $table->string('prefix');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->string('slug');
             $table->unsignedInteger('icon')->nullable();;
             $table->foreign('icon')->references('file_id')->on('files')->onDelete('set null');
@@ -103,7 +105,7 @@ class CreateMains extends Migration
             $table->string('slug');
             $table->unsignedInteger('icon')->nullable();;
             $table->foreign('icon')->references('file_id')->on('files')->onDelete('set null');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->unsignedInteger('parent_id');
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
@@ -113,7 +115,7 @@ class CreateMains extends Migration
             $table->increments('field_id');
             $table->string('field_name');
             $table->string('field_data');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });
@@ -127,7 +129,7 @@ class CreateMains extends Migration
             $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('set null');
             $table->unsignedInteger('image')->nullable();;
             $table->foreign('image')->references('file_id')->on('files')->onDelete('set null');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });
@@ -138,7 +140,7 @@ class CreateMains extends Migration
             $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
             $table->string('field_type');
             $table->longText('field_value');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });

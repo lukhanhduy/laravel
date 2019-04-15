@@ -8,7 +8,7 @@ class AdminRepository extends EloquentRepository
 {
     public function model()
     {
-        return \App\Models\User::class;
+        return \App\Models\Admin::class;
     }
     public function findRole(){
         return $this->model()->role();

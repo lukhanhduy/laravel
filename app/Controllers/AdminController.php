@@ -32,10 +32,19 @@ class AdminController extends Controller
         return $email;
     }
     public function fnCreate(AdminCreateRequest $request){
-        // $validator->messages();
-        // $email = Helper::get($request,'email','');
-        // $password = Helper::get($request,'password','');
-        // $phoneNumber = Helper::get($request,'phoneNumber','');
-        return [];
+        $email = Helper::get($request,'email','');
+        $password = Helper::get($request,'password','');
+        $phoneNumber = Helper::get($request,'phone_number','');
+        $firstName = Helper::get($request,"first_name",'');
+        $lastName = Helper::get($request,'last_name','');
+        $result = $this->repository->create([
+            "email" => $email,
+            "password" => $password,
+            "phone_number" => $phoneNumber,
+            "first_name" => $firstName,
+            "last_name" => $lastName
+        ]);
+        $result["message"] = __('message.created',["module"=>__("global.account")]);
+        return HandleHttp::responseSuccess($result);
     }
 }

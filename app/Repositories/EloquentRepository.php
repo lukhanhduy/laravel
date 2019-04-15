@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
 use Illuminate\Container\Container as App;
+use HandleHttp;
 
 abstract class EloquentRepository implements RepositoryInterface
 {
@@ -17,8 +18,6 @@ abstract class EloquentRepository implements RepositoryInterface
     protected $fieldSearchable = array();
 
     protected $presenter;
-
-    protected $validator;
 
     protected $rules = null;
 
@@ -36,7 +35,6 @@ abstract class EloquentRepository implements RepositoryInterface
         $this->criteria = new Collection();
         $this->makeModel();
         $this->makePresenter();
-        $this->makeValidator();
         $this->boot();
     }
 
@@ -56,25 +54,6 @@ abstract class EloquentRepository implements RepositoryInterface
     {
         return null;
     }
-
-    public function validator()
-    {
-
-        if ( isset($this->rules) && ! is_null($this->rules) && is_array($this->rules) && !empty($this->rules) ) {
-            if ( class_exists('Prettus\Validator\LaravelValidator') ) {
-                $validator = app('Prettus\Validator\LaravelValidator');
-                if ($validator instanceof ValidatorInterface) {
-                    $validator->setRules($this->rules);
-                    return $validator;
-                }
-            } else {
-                throw new Exception( trans('repository::packages.prettus_laravel_validation_required') );
-            }
-        }
-
-        return null;
-    }
-
     public function setPresenter($presenter)
     {
         $this->makePresenter($presenter);
@@ -104,23 +83,6 @@ abstract class EloquentRepository implements RepositoryInterface
             }
 
             return $this->presenter;
-        }
-
-        return null;
-    }
-
-    public function makeValidator($validator = null)
-    {
-        $validator = !is_null($validator) ? $validator : $this->validator();
-
-        if ( !is_null($validator) ) {
-            $this->validator = is_string($validator) ? $this->app->make($validator) : $validator;
-
-            if (!$this->validator instanceof ValidatorInterface ) {
-                throw new RepositoryException("Class {$validator} must be an instance of Prettus\\Validator\\Contracts\\ValidatorInterface");
-            }
-
-            return $this->validator;
         }
 
         return null;
@@ -236,29 +198,15 @@ abstract class EloquentRepository implements RepositoryInterface
 
     public function create(array $attributes)
     {
-        if ( !is_null($this->validator) ) {
-            $this->validator->with($attributes)
-                ->passesOrFail( ValidatorInterface::RULE_CREATE );
-        }
-
         $model = $this->model->newInstance($attributes);
         $model->save();
         $this->resetModel();
-
-        event(new RepositoryEntityCreated($this, $model));
-
         return $this->parserResult($model);
     }
 
     public function update(array $attributes, $id)
     {
         $this->applyScope();
-
-        if ( !is_null($this->validator) ) {
-            $this->validator->with($attributes)
-                ->setId($id)
-                ->passesOrFail( ValidatorInterface::RULE_UPDATE );
-        }
 
         $_skipPresenter = $this->skipPresenter;
 
@@ -315,7 +263,6 @@ abstract class EloquentRepository implements RepositoryInterface
     }
 
     public function parserResult($model,$pagination = false){
-        $result = [];
         if($pagination === true){
             $result['data'] = $model["data"] ? $model["data"] : [];
             $result['next'] =$model['next'] ? $model['next'] : null;
