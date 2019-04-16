@@ -1,17 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\RoleRepository;
 
 class RoleController extends Controller
 {
     /**
      * this function to get all roles by pagination
      */
-    public function fnGetRoles(Request $request){
-        $roles = $this->doGetRoles();
+    public function __construct(RoleRepository $repository)
+    {
+        $this->repository = $repository;
+        parent::__construct();
+    }
+
+    public function fnGetAll(Request $request){
+        $roles = $this->repository->getAll();
         return $roles;
     }
 

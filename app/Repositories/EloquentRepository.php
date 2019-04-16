@@ -98,20 +98,20 @@ abstract class EloquentRepository implements RepositoryInterface
         return $this;
     }
 
-    public function all($columns = array('*'))
+    public function all($pagination = [],$columns = array('*'), $relation = [])
     {
-        $this->applyCriteria();
-        $this->applyScope();
-
-        if ( $this->model instanceof \Illuminate\Database\Eloquent\Builder ){
-            $results = $this->model->get($columns);
-        } else {
-            $results = $this->model->all($columns);
+        if(!empty($relation)){
+            foreach ($relation as $value) {
+                $this->with($value);
+            }
         }
-
+        if ( $this->model instanceof \Illuminate\Database\Eloquent\Builder ){
+            $results = $this->model->paginate($pagination,$columns);
+        } else {
+            $results = $this->model->paginate($pagination,$columns);
+        }
         $this->resetModel();
-
-        return $this->parserResult($results);
+        return $results;
     }
 
     public function paginate($pagination = [ 'limit' => null , 'skip' => null ] , $columns = array('*'))

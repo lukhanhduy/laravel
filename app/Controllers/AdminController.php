@@ -19,7 +19,7 @@ class AdminController extends Controller
      * this function to login to admin and get token
      */
     public function fnLogin(Request $request){
-        $result = $this->doLogin($request);
+        // $result = $this->doLogin($request);
         return $result;
     }
     /**

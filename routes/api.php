@@ -18,8 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::get('/ping', 'UserController@ping');
 Route::group(['prefix'=>'/admin','middleware'=>'locale'],function(){
-    Route::get('/find-all','AdminController@findAll');
-    Route::get('/login','AdminController@fnLogin');
-    Route::post('/create','AdminController@fnCreate');
+    // Route::get('/find-all','AdminController@findAll');
+    // Route::get('/login','AdminController@fnLogin');
+    // Route::post('/create','AdminController@fnCreate');
+    Route::group(['prefix'=>'/roles'],function(){
+        Route::get('/','RoleController@fnGetAll');
+    });
 });
+
 
