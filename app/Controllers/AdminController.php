@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Helper;
 use HandleHttp;
 use App\Repositories\AdminRepository;
-use App\Http\Requests\AdminCreateRequest;
 
 class AdminController extends Controller
 {
@@ -31,6 +30,9 @@ class AdminController extends Controller
         $password = Helper::get($request,'password','');
         return $email;
     }
+    /**
+     * this function create admin from admin page
+     */
     public function fnCreate(AdminCreateRequest $request){
         $email = Helper::get($request,'email','');
         $password = Helper::get($request,'password','');
@@ -47,4 +49,20 @@ class AdminController extends Controller
         $result["message"] = __('message.created',["module"=>__("global.account")]);
         return HandleHttp::responseSuccess($result);
     }
+    
+    public function fnUpdate(AdminUpdateRequest $request){
+        $password = Helper::get($request,'password','');
+        $phoneNumber = Helper::get($request,'phone_number','');
+        $firstName = Helper::get($request,"first_name",'');
+        $lastName = Helper::get($request,'last_name','');
+        $result = $this->repository->update([
+            "email" => $email,
+            "password" => $password,
+            "phone_number" => $phoneNumber,
+            "first_name" => $firstName,
+            "last_name" => $lastName
+        ],$request->userId);
+        return [];
+    }
+    
 }
