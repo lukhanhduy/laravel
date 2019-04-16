@@ -98,13 +98,8 @@ abstract class EloquentRepository implements RepositoryInterface
         return $this;
     }
 
-    public function all($pagination = [],$columns = array('*'), $relation = [])
+    public function all($pagination = [],$columns = array('*'))
     {
-        if(!empty($relation)){
-            foreach ($relation as $value) {
-                $this->with($value);
-            }
-        }
         if ( $this->model instanceof \Illuminate\Database\Eloquent\Builder ){
             $results = $this->model->paginate($pagination,$columns);
         } else {

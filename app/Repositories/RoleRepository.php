@@ -11,6 +11,7 @@ class RoleRepository extends EloquentRepository
         return \App\Models\Role::class;
     }
     public function getAll(){
-        return $this->all([],['*'],['permissions']);
+        $this->with('permissions');
+        return $this->all([],['*']);
     }
 }
