@@ -14,4 +14,8 @@ class RoleRepository extends EloquentRepository
         $this->with('permissions');
         return $this->all([],['*']);
     }
+    public function get($id){
+        $this->with('permissions');
+        return $this->find($id);
+    }
 }

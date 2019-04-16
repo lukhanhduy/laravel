@@ -23,6 +23,7 @@ Route::group(['prefix'=>'/admin','middleware'=>'locale'],function(){
     // Route::post('/create','AdminController@fnCreate');
     Route::group(['prefix'=>'/roles'],function(){
         Route::get('/','RoleController@fnGetAll');
+        Route::get('/{roleId}','RoleController@fnGetById');
     });
 });
 

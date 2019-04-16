@@ -122,8 +122,6 @@ abstract class EloquentRepository implements RepositoryInterface
 
     public function find($id, $columns = array('*'))
     {
-        $this->applyCriteria();
-        $this->applyScope();
         $model = $this->model->findOrFail($id, $columns);
         $this->resetModel();
         return $this->parserResult($model);

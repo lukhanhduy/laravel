@@ -25,8 +25,9 @@ class RoleController extends Controller
     /**
      * this function get role by id
      */
-    public function fnGetRoleById(Request $request){
-        return [];
+    public function fnGetById($roleId){
+        $role = $this->repository->get($roleId);
+        return $role;
     }
 
 }
